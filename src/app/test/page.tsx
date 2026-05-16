@@ -66,7 +66,13 @@ export default function TestPage() {
   }, [currentIndex, answers, isTransitioning, currentQuestion, router]);
 
   const handleSkip = () => {
-    saveUser({ score: 42, completedTest: true });
+    const mockAnswers = [
+      { questionId: 1, score: 25, category: 'financial' },
+      { questionId: 6, score: 25, category: 'emotional' },
+      { questionId: 11, score: 25, category: 'social' },
+    ];
+    const mockScore = calculateScore(mockAnswers);
+    saveUser({ score: mockScore, completedTest: true });
     router.push('/result');
   };
 
