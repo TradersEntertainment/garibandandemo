@@ -65,6 +65,11 @@ export default function TestPage() {
     }
   }, [currentIndex, answers, isTransitioning, currentQuestion, router]);
 
+  const handleSkip = () => {
+    saveUser({ score: 42, completedTest: true });
+    router.push('/result');
+  };
+
   return (
     <main className="relative min-h-[100dvh] bg-bg-dark overflow-hidden flex flex-col">
       {/* Ambient background based on category */}
@@ -183,7 +188,7 @@ export default function TestPage() {
       </div>
 
       {/* ===== BOTTOM INFO ===== */}
-      <div className="relative z-10 p-6 text-center">
+      <div className="relative z-10 p-6 flex flex-col items-center gap-4">
         <p className="text-text-muted text-xs">
           {currentIndex < 5
             ? '💸 Finansal gariban seviyeni ölçüyoruz...'
@@ -191,6 +196,12 @@ export default function TestPage() {
             ? '💔 Duygusal hasar seviyeni ölçüyoruz...'
             : '🫠 Sosyal gariban seviyeni ölçüyoruz...'}
         </p>
+        <button 
+          onClick={handleSkip}
+          className="text-[10px] text-text-muted/50 hover:text-text-muted transition-colors uppercase tracking-widest font-bold px-4 py-2 border border-transparent hover:border-white/5 rounded-full"
+        >
+          Testi Atla (Geliştirici)
+        </button>
       </div>
     </main>
   );
