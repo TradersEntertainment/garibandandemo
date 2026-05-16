@@ -111,14 +111,14 @@ export default function FeedPage() {
     : feedPosts.filter((p) => p.category === activeCategory);
 
   return (
-    <main className="relative min-h-screen bg-bg-dark pb-safe">
+    <main className="relative min-h-[100dvh] bg-bg-dark pb-safe">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-dirty-gold/3 rounded-full blur-[100px]" />
       </div>
 
       {/* Header */}
-      <div className="sticky top-0 z-30 glass-strong p-4 pt-6">
+      <div className="sticky top-0 z-30 glass-strong p-3 sm:p-4 pt-4 sm:pt-6 safe-top">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-[var(--font-heading)] font-bold text-gradient-gold">Akış</h1>
           <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ export default function FeedPage() {
       </div>
 
       {/* Feed */}
-      <div className="relative z-10 px-4 py-4 max-w-lg mx-auto">
+      <div className="relative z-10 px-3 sm:px-4 py-3 sm:py-4 max-w-lg mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -172,9 +172,9 @@ export default function FeedPage() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="fixed bottom-24 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-dirty-gold to-faded-orange flex items-center justify-center text-bg-dark shadow-lg glow-gold"
+        className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-dirty-gold to-faded-orange flex items-center justify-center text-bg-dark shadow-lg glow-gold"
       >
-        <Plus size={24} />
+        <Plus size={22} />
       </motion.button>
 
       {/* Bottom Nav */}

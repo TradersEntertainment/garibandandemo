@@ -30,11 +30,11 @@ export default function OnboardingPage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-bg-dark overflow-hidden">
+    <main className="relative min-h-[100dvh] bg-bg-dark overflow-hidden">
       {/* Ambient orbs */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-dirty-gold/5 rounded-full blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/3 w-64 h-64 bg-muted-blue/5 rounded-full blur-[80px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/3 left-1/3 w-48 h-48 md:w-80 md:h-80 bg-dirty-gold/5 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/3 w-40 h-40 md:w-64 md:h-64 bg-muted-blue/5 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
       </div>
 
       <AnimatePresence mode="wait">
@@ -45,7 +45,7 @@ export default function OnboardingPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6"
+            className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4 sm:px-6"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -55,7 +55,7 @@ export default function OnboardingPage() {
             >
               <div className="text-center mb-10">
                 <div className="text-5xl mb-4">🫠</div>
-                <h1 className="text-3xl font-[var(--font-heading)] font-bold text-text-primary mb-2">
+                <h1 className="text-2xl sm:text-3xl font-[var(--font-heading)] font-bold text-text-primary mb-2">
                   Hoş Geldin, <span className="text-gradient-gold">Gariban</span>
                 </h1>
                 <p className="text-text-secondary text-sm">Macerana başlamak için adını gir</p>
@@ -119,21 +119,21 @@ export default function OnboardingPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center min-h-screen px-6 py-12"
+            className="relative z-10 flex flex-col items-center min-h-[100dvh] px-4 sm:px-6 py-8 sm:py-12"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center mb-10"
+              className="text-center mb-6 sm:mb-10"
             >
               <div className="text-4xl mb-3">✨</div>
-              <h1 className="text-3xl font-[var(--font-heading)] font-bold text-text-primary mb-2">
+              <h1 className="text-2xl sm:text-3xl font-[var(--font-heading)] font-bold text-text-primary mb-2">
                 <span className="text-gradient-gold">Vibrasyonunu</span> Seç
               </h1>
               <p className="text-text-secondary text-sm">Duygusal kimliğini en iyi hangisi tanımlıyor?</p>
             </motion.div>
 
-            <div className="w-full max-w-lg grid grid-cols-2 gap-3">
+            <div className="w-full max-w-lg grid grid-cols-2 gap-2.5 sm:gap-3">
               {vibes.map((vibe, i) => (
                 <motion.button
                   key={vibe.id}
@@ -143,7 +143,7 @@ export default function OnboardingPage() {
                   whileHover={{ scale: 1.03, borderColor: vibe.color + '60' }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleVibeSelect(vibe.id)}
-                  className={`glass-card p-5 text-left transition-all duration-300 ${
+                  className={`glass-card p-4 sm:p-5 text-left transition-all duration-300 ${
                     selectedVibe === vibe.id
                       ? 'border-2 scale-95 opacity-80'
                       : 'hover:bg-white/[0.04]'
@@ -153,9 +153,9 @@ export default function OnboardingPage() {
                     boxShadow: selectedVibe === vibe.id ? `0 0 30px ${vibe.color}33` : undefined,
                   }}
                 >
-                  <div className="text-3xl mb-3">{vibe.emoji}</div>
-                  <h3 className="font-bold text-text-primary text-sm mb-1">{vibe.title}</h3>
-                  <p className="text-text-muted text-xs leading-relaxed">{vibe.description}</p>
+                  <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{vibe.emoji}</div>
+                  <h3 className="font-bold text-text-primary text-xs sm:text-sm mb-1">{vibe.title}</h3>
+                  <p className="text-text-muted text-[10px] sm:text-xs leading-relaxed">{vibe.description}</p>
                 </motion.button>
               ))}
             </div>

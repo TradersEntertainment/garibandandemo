@@ -66,21 +66,21 @@ export default function TestPage() {
   }, [currentIndex, answers, isTransitioning, currentQuestion, router]);
 
   return (
-    <main className="relative min-h-screen bg-bg-dark overflow-hidden flex flex-col">
+    <main className="relative min-h-[100dvh] bg-bg-dark overflow-hidden flex flex-col">
       {/* Ambient background based on category */}
       <div className="fixed inset-0 pointer-events-none z-0 transition-all duration-1000">
         <div
-          className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full blur-[150px] animate-pulse-glow transition-colors duration-1000"
+          className="absolute top-1/3 left-1/4 w-48 h-48 md:w-96 md:h-96 rounded-full blur-[80px] md:blur-[150px] animate-pulse-glow transition-colors duration-1000"
           style={{ backgroundColor: `${categoryColors[currentQuestion.category]}10` }}
         />
         <div
-          className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full blur-[120px] animate-pulse-glow transition-colors duration-1000"
+          className="absolute bottom-1/4 right-1/4 w-36 h-36 md:w-72 md:h-72 rounded-full blur-[60px] md:blur-[120px] animate-pulse-glow transition-colors duration-1000"
           style={{ backgroundColor: `${categoryColors[currentQuestion.category]}08`, animationDelay: '1.5s' }}
         />
       </div>
 
       {/* ===== TOP BAR ===== */}
-      <div className="relative z-20 p-6">
+      <div className="relative z-20 px-4 sm:p-6 pt-4 safe-top">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span className="text-lg">{categoryEmojis[currentQuestion.category]}</span>
@@ -109,7 +109,7 @@ export default function TestPage() {
       </div>
 
       {/* ===== QUESTION AREA ===== */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-6">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pb-4 sm:pb-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion.id}
@@ -120,14 +120,14 @@ export default function TestPage() {
             className="w-full max-w-lg"
           >
             {/* Question */}
-            <div className="glass-card p-8 mb-8">
-              <h2 className="text-2xl md:text-3xl font-[var(--font-heading)] font-bold text-text-primary leading-snug">
+            <div className="glass-card p-5 sm:p-8 mb-5 sm:mb-8">
+              <h2 className="text-lg sm:text-2xl md:text-3xl font-[var(--font-heading)] font-bold text-text-primary leading-snug">
                 {currentQuestion.question}
               </h2>
             </div>
 
             {/* Answers */}
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3">
               {currentQuestion.answers.map((answer, i) => (
                 <motion.button
                   key={i}
@@ -142,7 +142,7 @@ export default function TestPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleAnswer(answer.score)}
                   disabled={isTransitioning}
-                  className="w-full glass p-5 text-left transition-all duration-300 flex items-center gap-4 group disabled:pointer-events-none"
+                  className="w-full glass p-4 sm:p-5 text-left transition-all duration-300 flex items-center gap-3 sm:gap-4 group disabled:pointer-events-none active:scale-[0.98]"
                 >
                   <div
                     className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition-colors duration-300"
@@ -153,7 +153,7 @@ export default function TestPage() {
                   >
                     {String.fromCharCode(65 + i)}
                   </div>
-                  <span className="text-text-primary text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">
+                  <span className="text-text-primary text-xs sm:text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">
                     {answer.text}
                   </span>
                 </motion.button>

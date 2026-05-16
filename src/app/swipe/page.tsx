@@ -48,14 +48,14 @@ function SwipeCard({
         transition: { duration: 0.3 },
       }}
     >
-      <div className="glass-card h-full p-6 flex flex-col overflow-hidden relative">
+      <div className="h-full p-4 sm:p-6 flex flex-col overflow-hidden relative rounded-[20px] bg-[#141414] border border-white/[0.08]">
         {/* Swipe Overlays */}
         <motion.div
           style={{ opacity: leftOpacity }}
           className="absolute inset-0 z-20 flex items-center justify-center bg-warm-neon-red/10 rounded-[20px] pointer-events-none"
         >
-          <div className="px-8 py-4 border-4 border-warm-neon-red rounded-2xl rotate-[-20deg]">
-            <span className="text-3xl font-bold text-warm-neon-red">Eyvallah</span>
+          <div className="px-6 py-3 sm:px-8 sm:py-4 border-4 border-warm-neon-red rounded-2xl rotate-[-20deg]">
+            <span className="text-2xl sm:text-3xl font-bold text-warm-neon-red">Eyvallah</span>
           </div>
         </motion.div>
 
@@ -63,18 +63,18 @@ function SwipeCard({
           style={{ opacity: rightOpacity }}
           className="absolute inset-0 z-20 flex items-center justify-center bg-dirty-gold/10 rounded-[20px] pointer-events-none"
         >
-          <div className="px-8 py-4 border-4 border-dirty-gold rounded-2xl rotate-[20deg]">
-            <span className="text-3xl font-bold text-dirty-gold">Kaderimizdir</span>
+          <div className="px-6 py-3 sm:px-8 sm:py-4 border-4 border-dirty-gold rounded-2xl rotate-[20deg]">
+            <span className="text-2xl sm:text-3xl font-bold text-dirty-gold">Kaderimizdir</span>
           </div>
         </motion.div>
 
         {/* Avatar / Visual */}
         <div className="flex-1 flex flex-col items-center justify-center mb-6">
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-charcoal to-bg-dark border-2 border-dirty-gold/20 flex items-center justify-center text-6xl mb-6 shadow-lg">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-charcoal to-bg-dark border-2 border-dirty-gold/20 flex items-center justify-center text-5xl sm:text-6xl mb-4 sm:mb-6 shadow-lg">
             {profile.avatar}
           </div>
 
-          <h2 className="text-2xl font-[var(--font-heading)] font-bold text-text-primary mb-1">
+          <h2 className="text-xl sm:text-2xl font-[var(--font-heading)] font-bold text-text-primary mb-1">
             {profile.name}, {profile.age}
           </h2>
 
@@ -249,15 +249,15 @@ export default function SwipePage() {
   const hasMoreProfiles = currentIndex < mockProfiles.length;
 
   return (
-    <main className="relative min-h-screen bg-bg-dark overflow-hidden flex flex-col">
+    <main className="relative h-[100dvh] bg-bg-dark overflow-hidden flex flex-col">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-dirty-gold/5 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-muted-blue/4 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/3 left-1/4 w-48 h-48 md:w-80 md:h-80 bg-dirty-gold/5 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" />
+        <div className="absolute bottom-1/3 right-1/3 w-40 h-40 md:w-64 md:h-64 bg-muted-blue/4 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
       </div>
 
       {/* Header */}
-      <div className="relative z-20 p-6 flex items-center justify-between">
+      <div className="relative z-20 px-4 py-3 sm:p-6 flex items-center justify-between safe-top">
         <Link href="/feed" className="text-text-muted hover:text-text-primary transition-colors">
           <span className="text-sm">Akış</span>
         </Link>
@@ -268,8 +268,8 @@ export default function SwipePage() {
       </div>
 
       {/* Card Stack */}
-      <div className="relative z-10 flex-1 px-6 pb-32">
-        <div className="relative w-full max-w-sm mx-auto h-full" style={{ minHeight: '500px' }}>
+      <div className="relative z-10 flex-1 px-4 sm:px-6 pb-28 sm:pb-32">
+        <div className="relative w-full max-w-sm mx-auto h-full" style={{ minHeight: 'calc(100dvh - 200px)' }}>
           {!hasMoreProfiles ? (
             <motion.div
               initial={{ opacity: 0 }}
@@ -306,12 +306,12 @@ export default function SwipePage() {
 
       {/* Action Buttons */}
       {hasMoreProfiles && (
-        <div className="fixed bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-5">
+        <div className="fixed bottom-6 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-4 sm:gap-5 safe-bottom">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('left')}
-            className="w-16 h-16 rounded-full glass flex items-center justify-center text-warm-neon-red hover:bg-warm-neon-red/10 transition-all"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass flex items-center justify-center text-warm-neon-red hover:bg-warm-neon-red/10 transition-all active:scale-90"
           >
             <X size={28} />
           </motion.button>
@@ -320,7 +320,7 @@ export default function SwipePage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('super')}
-            className="w-14 h-14 rounded-full glass flex items-center justify-center text-faded-orange hover:bg-faded-orange/10 transition-all"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full glass flex items-center justify-center text-faded-orange hover:bg-faded-orange/10 transition-all active:scale-90"
           >
             <Soup size={24} />
           </motion.button>
@@ -329,7 +329,7 @@ export default function SwipePage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe('right')}
-            className="w-16 h-16 rounded-full glass flex items-center justify-center text-dirty-gold hover:bg-dirty-gold/10 transition-all glow-gold"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full glass flex items-center justify-center text-dirty-gold hover:bg-dirty-gold/10 transition-all glow-gold active:scale-90"
           >
             <Heart size={28} />
           </motion.button>

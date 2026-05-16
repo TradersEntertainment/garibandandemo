@@ -279,3 +279,117 @@ body {
 .pb-safe {
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
 }
+
+/* ========== MOBILE OPTIMIZATIONS ========== */
+
+/* Use dynamic viewport height for true full-screen on mobile */
+.h-screen-safe {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.min-h-screen-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Hide scrollbar on mobile for cleaner look */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch target minimum 44px */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on interactive elements */
+  .swipe-card, button, .glass-card {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Reduce grain opacity on mobile for performance */
+  .grain-overlay {
+    opacity: 0.02;
+    animation-duration: 1s;
+  }
+
+  /* Reduce blur intensity on mobile for performance */
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-strong {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  /* Reduce ambient orb sizes on mobile */
+  .ambient-orb-lg {
+    width: 200px !important;
+    height: 200px !important;
+  }
+}
+
+/* iOS safe area for bottom elements */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay {
+    animation: none;
+    opacity: 0.015;
+  }
+  .animate-pulse-glow {
+    animation: none;
+    opacity: 0.7;
+  }
+  .animate-float {
+    animation: none;
+  }
+}
+
+/* Prevent rubber-band overscroll on iOS */
+html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for 100vh on mobile browsers (address bar) */
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+}
+
+/* Small phone adjustments (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .glass-card {
+    border-radius: 14px;
+  }
+  .glass {
+    border-radius: 12px;
+  }
+}
+

@@ -36,14 +36,14 @@ export default function ProfilePage() {
   ];
 
   return (
-    <main className="relative min-h-screen bg-bg-dark pb-safe">
+    <main className="relative min-h-[100dvh] bg-bg-dark pb-safe">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-dirty-gold/5 rounded-full blur-[120px]" />
       </div>
 
       {/* Header */}
-      <div className="relative z-20 p-6 flex items-center justify-between">
+      <div className="relative z-20 px-4 sm:p-6 pt-4 flex items-center justify-between safe-top">
         <h1 className="text-xl font-[var(--font-heading)] font-bold text-gradient-gold">Profil</h1>
         <div className="flex gap-3">
           <button className="glass w-9 h-9 rounded-full flex items-center justify-center text-text-muted hover:text-dirty-gold transition-colors">
@@ -55,7 +55,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="relative z-10 px-6 max-w-lg mx-auto">
+      <div className="relative z-10 px-4 sm:px-6 max-w-lg mx-auto">
         {/* Avatar & Identity */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

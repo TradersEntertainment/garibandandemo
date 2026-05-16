@@ -41,13 +41,13 @@ export default function LandingPage() {
 
       {/* ===== AMBIENT LIGHT ORBS ===== */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-dirty-gold/5 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-muted-blue/5 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-2/3 left-1/2 w-64 h-64 bg-warm-neon-red/3 rounded-full blur-[80px] animate-pulse-glow" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/4 left-1/4 w-48 h-48 md:w-96 md:h-96 bg-dirty-gold/5 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" />
+        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 md:w-80 md:h-80 bg-muted-blue/5 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-2/3 left-1/2 w-32 h-32 md:w-64 md:h-64 bg-warm-neon-red/3 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '3s' }} />
       </div>
 
       {/* ===== HERO SECTION ===== */}
-      <section className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+      <section className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4 sm:px-6 text-center">
         {/* Logo / Brand */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -64,7 +64,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
-          className="text-6xl md:text-8xl lg:text-9xl font-[var(--font-heading)] font-bold tracking-tight mb-8"
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-[var(--font-heading)] font-bold tracking-tight mb-6 sm:mb-8"
         >
           <span className="text-gradient-gold">garibandan</span>
         </motion.h1>
@@ -76,7 +76,7 @@ export default function LandingPage() {
           transition={{ duration: 1.5, delay: 0.8 }}
           className="max-w-2xl mb-10"
         >
-          <p className="text-xl md:text-2xl font-[var(--font-heading)] italic text-text-primary/80 leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl font-[var(--font-heading)] italic text-text-primary/80 leading-relaxed">
             &ldquo;Bazıları zengin.
             <br />
             Bazıları güzel.
@@ -117,7 +117,7 @@ export default function LandingPage() {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(196, 163, 90, 0.3)' }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-10 py-4 bg-gradient-to-r from-dirty-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-lg tracking-wide overflow-hidden transition-all"
+              className="group relative px-8 sm:px-10 py-4 bg-gradient-to-r from-dirty-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-base sm:text-lg tracking-wide overflow-hidden transition-all"
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Sparkles size={20} />
@@ -146,18 +146,18 @@ export default function LandingPage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section className="relative z-10 py-24 px-6">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-16"
+          className="text-2xl sm:text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-10 sm:mb-16"
         >
           <span className="text-text-primary">Nasıl </span>
           <span className="text-gradient-gold">Çalışır?</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {[
             { icon: <Flame />, title: 'Vibrasyonunu Seç', desc: 'Duygusal kimliğini belirle. 8 farklı gariban vibrasyonundan birini seç.', step: '01' },
             { icon: <Zap />, title: 'Garibanometre\'yi Çöz', desc: 'Finansal, duygusal ve sosyal gariban seviyeni ölç. 0-100 arası puan al.', step: '02' },
@@ -169,7 +169,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.2 }}
-              className="glass-card p-8 text-center group hover:border-dirty-gold/30 transition-all duration-500"
+              className="glass-card p-6 sm:p-8 text-center group hover:border-dirty-gold/30 transition-all duration-500"
             >
               <div className="text-sm text-dirty-gold/40 font-mono mb-4">{item.step}</div>
               <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-dirty-gold/10 flex items-center justify-center text-dirty-gold group-hover:scale-110 transition-transform duration-300">
@@ -183,12 +183,12 @@ export default function LandingPage() {
       </section>
 
       {/* ===== GARIBAN TITLES SHOWCASE ===== */}
-      <section className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-charcoal/30 to-transparent">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-charcoal/30 to-transparent">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-4"
+          className="text-2xl sm:text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-4"
         >
           <span className="text-gradient-emotional">Gariban Unvanları</span>
         </motion.h2>
@@ -233,8 +233,8 @@ export default function LandingPage() {
       </section>
 
       {/* ===== VIRAL STATS ===== */}
-      <section className="relative z-10 py-24 px-6">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
@@ -252,18 +252,18 @@ export default function LandingPage() {
       </section>
 
       {/* ===== FEATURES PREVIEW ===== */}
-      <section className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-charcoal/20 to-transparent">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-charcoal/20 to-transparent">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-16"
+          className="text-2xl sm:text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-10 sm:mb-16"
         >
           <span className="text-text-primary">Neden </span>
           <span className="text-gradient-gold">Garibandan?</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {[
             { icon: '🎭', title: 'Anti-Fake Kültür', desc: 'Sahte lüks kültürüne karşı, duygusal gerçeklik ödüllendirilir.' },
             { icon: '🤖', title: 'AI Aura Analizi', desc: 'Yapay zeka duygusal auranı analiz eder ve eşleşme önerileri sunar.' },
@@ -291,14 +291,14 @@ export default function LandingPage() {
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section className="relative z-10 py-32 px-6 text-center">
+      <section className="relative z-10 py-20 sm:py-32 px-4 sm:px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <div className="text-6xl mb-6">🫠</div>
-          <h2 className="text-3xl md:text-5xl font-[var(--font-heading)] font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-[var(--font-heading)] font-bold mb-6">
             <span className="text-text-primary">Sen de </span>
             <span className="text-gradient-gold">gariban mısın?</span>
           </h2>
@@ -309,7 +309,7 @@ export default function LandingPage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-12 py-5 bg-gradient-to-r from-dirty-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-xl tracking-wide glow-gold"
+              className="px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-dirty-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-lg sm:text-xl tracking-wide glow-gold"
             >
               <span className="flex items-center gap-2">
                 <Star size={22} />

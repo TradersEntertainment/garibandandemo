@@ -51,15 +51,15 @@ export default function ResultPage() {
   const titleInfo = garibanTitles[score.titleKey];
 
   return (
-    <main className="relative min-h-screen bg-bg-dark overflow-hidden">
+    <main className="relative min-h-[100dvh] bg-bg-dark overflow-x-hidden">
       {/* Celebration ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-dirty-gold/8 rounded-full blur-[150px] animate-pulse-glow" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-faded-orange/5 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-warm-neon-red/3 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/4 left-1/3 w-48 h-48 md:w-96 md:h-96 bg-dirty-gold/8 rounded-full blur-[80px] md:blur-[150px] animate-pulse-glow" />
+        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 md:w-80 md:h-80 bg-faded-orange/5 rounded-full blur-[60px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 w-32 h-32 md:w-64 md:h-64 bg-warm-neon-red/3 rounded-full blur-[50px] md:blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center px-6 py-12 min-h-screen">
+      <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 min-h-[100dvh]">
         {/* ===== SCORE REVEAL ===== */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -77,7 +77,7 @@ export default function ResultPage() {
           </motion.div>
 
           {/* Score Ring */}
-          <div className="relative w-44 h-44 mx-auto mb-6">
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 mx-auto mb-4 sm:mb-6">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
               <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
               <motion.circle
@@ -95,7 +95,7 @@ export default function ResultPage() {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-5xl font-bold text-gradient-gold font-[var(--font-heading)]">
+              <div className="text-4xl sm:text-5xl font-bold text-gradient-gold font-[var(--font-heading)]">
                 <AnimatedCounter target={score.total} />
               </div>
               <div className="text-xs text-text-muted mt-1">/ 100</div>
@@ -109,7 +109,7 @@ export default function ResultPage() {
             transition={{ delay: 2 }}
           >
             <div className="text-5xl mb-3">{titleInfo.emoji}</div>
-            <h1 className="text-3xl md:text-4xl font-[var(--font-heading)] font-bold text-gradient-gold mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[var(--font-heading)] font-bold text-gradient-gold mb-2">
               {titleInfo.title}
             </h1>
             <p className="text-text-secondary text-sm max-w-xs mx-auto">{titleInfo.description}</p>
@@ -122,16 +122,16 @@ export default function ResultPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="w-full max-w-sm space-y-6"
+            className="w-full max-w-sm space-y-4 sm:space-y-6"
           >
             {/* Radar Chart */}
-            <div className="glass-card p-6 flex flex-col items-center">
-              <h3 className="text-sm font-medium text-text-secondary mb-4 tracking-wider uppercase">Gariban Profili</h3>
-              <RadarChart dimensions={score.dimensions} size={240} />
+            <div className="glass-card p-4 sm:p-6 flex flex-col items-center">
+              <h3 className="text-xs sm:text-sm font-medium text-text-secondary mb-3 sm:mb-4 tracking-wider uppercase">Gariban Profili</h3>
+              <RadarChart dimensions={score.dimensions} size={200} />
             </div>
 
             {/* Aura Tags */}
-            <div className="glass-card p-6">
+            <div className="glass-card p-4 sm:p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-4 tracking-wider uppercase flex items-center gap-2">
                 <Sparkles size={14} className="text-dirty-gold" />
                 Aura Etiketleri
@@ -152,7 +152,7 @@ export default function ResultPage() {
             </div>
 
             {/* Dimension Bars */}
-            <div className="glass-card p-6">
+            <div className="glass-card p-4 sm:p-6">
               <h3 className="text-sm font-medium text-text-secondary mb-4 tracking-wider uppercase">Gariban Boyutları</h3>
               <div className="space-y-4">
                 {[
