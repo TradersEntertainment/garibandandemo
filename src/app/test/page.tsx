@@ -100,9 +100,17 @@ export default function TestPage() {
               {categoryLabels[currentQuestion.category]}
             </span>
           </div>
-          <span className="text-sm text-text-muted font-mono">
-            {currentIndex + 1}/{questions.length}
-          </span>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={handleSkip}
+              className="text-[10px] text-text-muted/60 hover:text-white transition-colors uppercase tracking-widest font-bold"
+            >
+              Atla ⏭
+            </button>
+            <span className="text-sm text-text-muted font-mono bg-white/5 px-2 py-0.5 rounded-md">
+              {currentIndex + 1}/{questions.length}
+            </span>
+          </div>
         </div>
 
         {/* Progress Bar */}
@@ -188,7 +196,7 @@ export default function TestPage() {
       </div>
 
       {/* ===== BOTTOM INFO ===== */}
-      <div className="relative z-10 p-6 flex flex-col items-center gap-4">
+      <div className="relative z-10 p-6 flex flex-col items-center gap-4 pb-safe">
         <p className="text-text-muted text-xs">
           {currentIndex < 5
             ? '💸 Finansal gariban seviyeni ölçüyoruz...'
@@ -196,12 +204,6 @@ export default function TestPage() {
             ? '💔 Duygusal hasar seviyeni ölçüyoruz...'
             : '🫠 Sosyal gariban seviyeni ölçüyoruz...'}
         </p>
-        <button 
-          onClick={handleSkip}
-          className="text-[10px] text-text-muted/50 hover:text-text-muted transition-colors uppercase tracking-widest font-bold px-4 py-2 border border-transparent hover:border-white/5 rounded-full"
-        >
-          Testi Atla (Geliştirici)
-        </button>
       </div>
     </main>
   );
