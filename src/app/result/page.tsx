@@ -1,12 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { getUser } from '@/utils/storage';
 import { garibanTitles } from '@/data/questions';
 import RadarChart from '@/components/RadarChart';
-import { Share2, ArrowRight, Download, Sparkles } from 'lucide-react';
+import { Share2, ArrowRight, Download, Sparkles, X } from 'lucide-react';
 import Link from 'next/link';
 
 function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: number }) {
@@ -30,10 +30,48 @@ function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: 
   return <span>{count}</span>;
 }
 
+// Confetti particle
+function ConfettiParticle({ delay }: { delay: number }) {
+  const colors = ['#C4A35A', '#E84040', '#4A6B8A', '#5A9A5A', '#D4845A', '#8B6914'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const startX = Math.random() * 100;
+  const endX = startX + (Math.random() - 0.5) * 40;
+  const size = 4 + Math.random() * 6;
+  const rotEnd = Math.random() * 720 - 360;
+
+  return (
+    <motion.div
+      className="fixed z-50 pointer-events-none"
+      style={{
+        left: `${startX}%`,
+        top: '-2%',
+        width: size,
+        height: size * 1.5,
+        backgroundColor: color,
+        borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+      }}
+      initial={{ y: 0, x: 0, opacity: 1, rotate: 0 }}
+      animate={{
+        y: '110vh',
+        x: `${(endX - startX) * 2}vw`,
+        opacity: [1, 1, 0.8, 0],
+        rotate: rotEnd,
+      }}
+      transition={{
+        duration: 3 + Math.random() * 2,
+        delay: delay,
+        ease: 'easeIn',
+      }}
+    />
+  );
+}
+
 export default function ResultPage() {
   const router = useRouter();
   const [user, setUser] = useState<ReturnType<typeof getUser> | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [showShareCard, setShowShareCard] = useState(false);
 
   useEffect(() => {
     const userData = getUser();
@@ -43,6 +81,7 @@ export default function ResultPage() {
     }
     setUser(userData);
     setTimeout(() => setShowDetails(true), 2500);
+    setTimeout(() => setShowConfetti(false), 6000);
   }, [router]);
 
   if (!user || !user.score) return null;
@@ -52,6 +91,15 @@ export default function ResultPage() {
 
   return (
     <main className="relative min-h-[100dvh] bg-bg-dark overflow-x-hidden">
+      {/* Confetti */}
+      {showConfetti && (
+        <>
+          {Array.from({ length: 40 }).map((_, i) => (
+            <ConfettiParticle key={i} delay={0.5 + i * 0.08} />
+          ))}
+        </>
+      )}
+
       {/* Celebration ambient */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/3 w-48 h-48 md:w-96 md:h-96 bg-dirty-gold/8 rounded-full blur-[80px] md:blur-[150px] animate-pulse-glow" />
@@ -184,6 +232,30 @@ export default function ResultPage() {
               </div>
             </div>
 
+            {/* ===== GARIBAN SERTIFIKASI ===== */}
+            <div className="glass-card p-6 sm:p-8 text-center relative overflow-hidden border-dirty-gold/20">
+              {/* Decorative corners */}
+              <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-dirty-gold/40 rounded-tl-lg" />
+              <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-dirty-gold/40 rounded-tr-lg" />
+              <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-dirty-gold/40 rounded-bl-lg" />
+              <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-dirty-gold/40 rounded-br-lg" />
+
+              <div className="text-xs tracking-[0.3em] uppercase text-dirty-gold/50 mb-3">Sertifika</div>
+              <div className="text-4xl mb-3">📜</div>
+              <h3 className="text-lg font-[var(--font-heading)] font-bold text-gradient-gold mb-1">Gariban Sertifikası</h3>
+              <p className="text-text-muted text-xs mb-4">Bu belge ile tasdik olunur ki,</p>
+              <div className="text-xl font-bold text-text-primary mb-1">{user.name || 'Gariban'}</div>
+              <div className="text-sm text-dirty-gold mb-3">{titleInfo.title} — {score.total}/100</div>
+              <div className="flex flex-wrap justify-center gap-1 mb-4">
+                {score.auraTags.slice(0, 3).map((tag, i) => (
+                  <span key={i} className="px-2 py-0.5 text-[9px] bg-dirty-gold/10 text-dirty-gold/80 rounded-full">{tag}</span>
+                ))}
+              </div>
+              <div className="text-[10px] text-text-muted">
+                garibandan.com • {new Date().toLocaleDateString('tr-TR')}
+              </div>
+            </div>
+
             {/* Action Buttons */}
             <div className="space-y-3 pt-4 pb-8">
               <Link href="/swipe" className="block">
@@ -200,6 +272,7 @@ export default function ResultPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowShareCard(true)}
                   className="glass py-3 flex items-center justify-center gap-2 text-text-secondary text-sm hover:text-dirty-gold transition-colors"
                 >
                   <Share2 size={16} />
@@ -218,6 +291,79 @@ export default function ResultPage() {
           </motion.div>
         )}
       </div>
+
+      {/* ===== SHARE CARD OVERLAY ===== */}
+      <AnimatePresence>
+        {showShareCard && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="w-full max-w-xs"
+            >
+              <button
+                onClick={() => setShowShareCard(false)}
+                className="absolute top-6 right-6 text-text-muted hover:text-white z-50"
+              >
+                <X size={24} />
+              </button>
+
+              {/* Instagram Story Style Card */}
+              <div className="aspect-[9/16] rounded-[32px] overflow-hidden relative bg-gradient-to-b from-[#1a1510] via-bg-dark to-[#0a0a0a] border-2 border-dirty-gold/30 shadow-[0_0_60px_rgba(196,163,90,0.2)]">
+                {/* Gold grain overlay */}
+                <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(196,163,90,0.3) 0%, transparent 70%)' }} />
+                
+                {/* Content */}
+                <div className="relative z-10 flex flex-col items-center justify-center h-full p-8 text-center">
+                  <div className="text-xs tracking-[0.4em] uppercase text-dirty-gold/50 mb-6 font-bold">Garibanometre</div>
+                  
+                  {/* Score */}
+                  <div className="relative w-28 h-28 mx-auto mb-6">
+                    <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(196,163,90,0.1)" strokeWidth="6" />
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#C4A35A" strokeWidth="6" strokeLinecap="round"
+                        strokeDasharray={2 * Math.PI * 50}
+                        strokeDashoffset={2 * Math.PI * 50 * (1 - score.total / 100)}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <div className="text-3xl font-bold text-dirty-gold font-[var(--font-heading)]">{score.total}</div>
+                      <div className="text-[8px] text-text-muted">/100</div>
+                    </div>
+                  </div>
+
+                  <div className="text-4xl mb-3">{titleInfo.emoji}</div>
+                  <h2 className="text-2xl font-[var(--font-heading)] font-bold text-gradient-gold mb-2">{titleInfo.title}</h2>
+                  <p className="text-text-secondary text-xs mb-6 max-w-[180px]">{titleInfo.description}</p>
+
+                  {/* Mini Aura Tags */}
+                  <div className="flex flex-wrap justify-center gap-1.5 mb-8">
+                    {score.auraTags.slice(0, 3).map((tag, i) => (
+                      <span key={i} className="px-2 py-1 text-[8px] font-medium bg-dirty-gold/10 text-dirty-gold border border-dirty-gold/15 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Watermark */}
+                  <div className="absolute bottom-8 left-0 right-0 text-center">
+                    <div className="text-sm font-[var(--font-heading)] font-bold text-gradient-gold mb-1">garibandan.com</div>
+                    <div className="text-[8px] text-text-muted tracking-wider">SEN DE GARIBAN MISIN? TESTE GİR</div>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-center text-text-muted text-xs mt-4">Ekran görüntüsü alıp Story&apos;ne at!</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

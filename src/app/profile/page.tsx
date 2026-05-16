@@ -7,7 +7,7 @@ import { getUser } from '@/utils/storage';
 import { garibanTitles, vibes } from '@/data/questions';
 import RadarChart from '@/components/RadarChart';
 import BottomNav from '@/components/BottomNav';
-import { Settings, Edit3, Sparkles, Music, Coffee, Heart, Zap, Moon } from 'lucide-react';
+import { Settings, Edit3, Sparkles, Music, Coffee, Heart, Zap, Moon, BookOpen, Plus, Trash2, Crown } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfilePage() {
@@ -16,6 +16,17 @@ export default function ProfilePage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editName, setEditName] = useState('');
   const [editVibe, setEditVibe] = useState('');
+  const [activeTab, setActiveTab] = useState<'profile' | 'veresiye'>('profile');
+  const [veresiyeEntries, setVeresiyeEntries] = useState([
+    { id: 1, to: 'Evrene', debt: '1 adet mutlu son', emoji: '🌌' },
+    { id: 2, to: 'Bakkal Mehmet Amca', debt: '250 TL', emoji: '🏪' },
+    { id: 3, to: 'Eski sevgiliye', debt: '3 yıllık gençliğim', emoji: '💔' },
+    { id: 4, to: 'Kendime', debt: 'Bir tatil', emoji: '🏖️' },
+  ]);
+  const [isVeresiyeModalOpen, setIsVeresiyeModalOpen] = useState(false);
+  const [newVeresiyeTo, setNewVeresiyeTo] = useState('');
+  const [newVeresiyeDebt, setNewVeresiyeDebt] = useState('');
+  const [newVeresiyeEmoji, setNewVeresiyeEmoji] = useState('📝');
 
   useEffect(() => {
     const userData = getUser();
@@ -33,6 +44,20 @@ export default function ProfilePage() {
     // We would normally save this to storage, but for the demo we'll just update local state
     setUser({ ...user, name: editName, vibe: editVibe });
     setIsEditModalOpen(false);
+  };
+
+  const handleAddVeresiye = () => {
+    if (!newVeresiyeTo.trim() || !newVeresiyeDebt.trim()) return;
+    setVeresiyeEntries(prev => [...prev, {
+      id: Date.now(),
+      to: newVeresiyeTo,
+      debt: newVeresiyeDebt,
+      emoji: newVeresiyeEmoji
+    }]);
+    setNewVeresiyeTo('');
+    setNewVeresiyeDebt('');
+    setNewVeresiyeEmoji('📝');
+    setIsVeresiyeModalOpen(false);
   };
 
   if (!user || !user.score) return null;
@@ -72,6 +97,29 @@ export default function ProfilePage() {
       </div>
 
       <div className="relative z-10 px-4 sm:px-6 max-w-lg mx-auto">
+        {/* Tab Switcher */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${
+              activeTab === 'profile' ? 'bg-dirty-gold text-bg-dark' : 'glass text-text-muted hover:text-text-primary'
+            }`}
+          >
+            Profil
+          </button>
+          <button
+            onClick={() => setActiveTab('veresiye')}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+              activeTab === 'veresiye' ? 'bg-dirty-gold text-bg-dark' : 'glass text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <BookOpen size={14} /> Veresiye Defteri
+          </button>
+        </div>
+
+        <AnimatePresence mode="wait">
+        {activeTab === 'profile' ? (
+        <motion.div key="profile-tab" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }}>
         {/* Avatar & Identity */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -280,25 +328,54 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
-        {/* VIP CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mb-8"
-        >
-          <Link href="/vip">
-            <div className="glass-card p-5 border-glow-gold bg-gradient-to-r from-dirty-gold/5 to-transparent cursor-pointer hover:from-dirty-gold/10 transition-all">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">👑</span>
-                <div>
-                  <h3 className="text-sm font-bold text-dirty-gold">VIP Gariban Ol</h3>
-                  <p className="text-[11px] text-text-muted">Zengin değilsin ama ruhun VIP olsun</p>
-                </div>
-              </div>
-            </div>
-          </Link>
         </motion.div>
+        ) : (
+        <motion.div key="veresiye-tab" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}>
+          {/* VERESIYE DEFTERI */}
+          <div className="text-center mb-6">
+            <div className="text-5xl mb-3">📖</div>
+            <h2 className="text-xl font-[var(--font-heading)] font-bold text-gradient-gold mb-2">Veresiye Defteri</h2>
+            <p className="text-text-secondary text-xs">Manevi ve maddi borçlarını burada tut</p>
+          </div>
+
+          <div className="space-y-3 mb-6">
+            {veresiyeEntries.map((entry, i) => (
+              <motion.div
+                key={entry.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="glass-card p-4 flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-xl">
+                    {entry.emoji}
+                  </div>
+                  <div>
+                    <div className="text-xs text-text-muted uppercase tracking-wider">{entry.to}</div>
+                    <div className="text-sm font-bold text-text-primary">{entry.debt}</div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setVeresiyeEntries(prev => prev.filter(e => e.id !== entry.id))}
+                  className="opacity-0 group-hover:opacity-100 text-text-muted hover:text-warm-neon-red transition-all p-2"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsVeresiyeModalOpen(true)}
+            className="w-full py-4 glass flex items-center justify-center gap-2 text-dirty-gold font-bold text-sm rounded-2xl hover:bg-white/[0.04] transition-all mb-8"
+          >
+            <Plus size={18} /> Borç Ekle
+          </motion.button>
+        </motion.div>
+        )}
+        </AnimatePresence>
       </div>
 
       <AnimatePresence>
@@ -352,6 +429,49 @@ export default function ProfilePage() {
                         <span className="text-xl">{v.emoji}</span>
                         <span className="text-xs font-bold truncate">{v.title}</span>
                       </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Veresiye Modal */}
+      <AnimatePresence>
+        {isVeresiyeModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-6"
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="w-full max-w-lg bg-bg-dark sm:rounded-[32px] rounded-t-[32px] border border-white/10 overflow-hidden shadow-2xl pb-safe"
+            >
+              <div className="p-4 flex items-center justify-between border-b border-white/5">
+                <button onClick={() => setIsVeresiyeModalOpen(false)} className="px-4 py-2 text-text-muted text-sm">İptal</button>
+                <h3 className="font-bold text-text-primary">Borç Ekle</h3>
+                <button onClick={handleAddVeresiye} disabled={!newVeresiyeTo.trim() || !newVeresiyeDebt.trim()} className="px-4 py-1.5 bg-dirty-gold text-bg-dark rounded-full font-bold text-sm disabled:opacity-50">Ekle</button>
+              </div>
+              <div className="p-6 space-y-5">
+                <div>
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Kime Borçlusun?</label>
+                  <input type="text" value={newVeresiyeTo} onChange={(e) => setNewVeresiyeTo(e.target.value)} placeholder="Ör: Evrene, Bakkal Amca..." className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-dirty-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Ne Borçlusun?</label>
+                  <input type="text" value={newVeresiyeDebt} onChange={(e) => setNewVeresiyeDebt(e.target.value)} placeholder="Ör: 3 yıllık gençlik, 250 TL..." className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-dirty-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Emoji</label>
+                  <div className="flex gap-2 flex-wrap">
+                    {['📝', '💔', '🏪', '🌌', '🏖️', '💸', '🎓', '🚬', '🍵', '😭'].map(e => (
+                      <button key={e} onClick={() => setNewVeresiyeEmoji(e)} className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all ${newVeresiyeEmoji === e ? 'bg-dirty-gold/20 border border-dirty-gold/40 scale-110' : 'bg-white/5 border border-white/10'}`}>{e}</button>
                     ))}
                   </div>
                 </div>
