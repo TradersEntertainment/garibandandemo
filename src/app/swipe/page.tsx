@@ -6,6 +6,7 @@ import { mockProfiles, Profile } from '@/data/profiles';
 import { garibanTitles } from '@/data/questions';
 import { Heart, X, Soup, Sparkles, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import BottomNav from '@/components/BottomNav';
 
 function SwipeCard({
   profile,
@@ -232,9 +233,17 @@ function MatchOverlay({ profile, onClose }: { profile: Profile; onClose: () => v
 export default function SwipePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matchProfile, setMatchProfile] = useState<Profile | null>(null);
+  const [showSoupAnim, setShowSoupAnim] = useState(false);
 
   const handleSwipe = useCallback((dir: 'left' | 'right' | 'super') => {
     const profile = mockProfiles[currentIndex];
+
+    if (dir === 'super') {
+      setShowSoupAnim(true);
+      setTimeout(() => {
+        setShowSoupAnim(false);
+      }, 1500);
+    }
 
     if (dir === 'right' || dir === 'super') {
       // 30% chance of match
@@ -306,7 +315,7 @@ export default function SwipePage() {
 
       {/* Action Buttons */}
       {hasMoreProfiles && (
-        <div className="fixed bottom-6 sm:bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-4 sm:gap-5 safe-bottom">
+        <div className="fixed bottom-24 sm:bottom-28 left-0 right-0 z-30 flex items-center justify-center gap-4 sm:gap-5 safe-bottom">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -354,6 +363,37 @@ export default function SwipePage() {
           />
         )}
       </AnimatePresence>
+
+      {/* SOUP ANIMATION */}
+      <AnimatePresence>
+        {showSoupAnim && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, y: 100 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 1.5, y: -100 }}
+            transition={{ duration: 0.5, type: 'spring' }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center pointer-events-none bg-black/40 backdrop-blur-sm"
+          >
+            <motion.div 
+              animate={{ rotate: [-5, 5, -5] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="text-9xl drop-shadow-[0_0_50px_rgba(212,132,90,0.8)]"
+            >
+              🍲
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-3xl font-bold font-[var(--font-heading)] text-faded-orange mt-6 tracking-wide drop-shadow-md text-center px-4"
+            >
+              Şifa Niyetine<br/>Çorba Ismarlandı!
+            </motion.h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <BottomNav active="swipe" />
     </main>
   );
 }

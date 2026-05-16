@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import RainEffect from '@/components/RainEffect';
-import { Sparkles, ChevronDown, Flame, Heart, Zap, Star } from 'lucide-react';
+import { Sparkles, ChevronDown, Flame, Heart, Zap, Star, Trophy, MapPin } from 'lucide-react';
 
 const titles = [
   { text: 'Holding On', emoji: '🤏' },
@@ -19,6 +19,15 @@ const stats = [
   { value: '2.3M', label: 'Çay İçildi' },
   { value: '156K', label: 'Kader Eşleşti' },
   { value: '∞', label: 'Duygusal Hasar' },
+];
+
+const quotes = [
+  "\"Bazıları zengin. Bazıları güzel. Bazıları sadece gariban.\"",
+  "\"Parayla saadet olmaz ama çaysız hiç olmaz.\"",
+  "\"Gülümsüyorum ama içeride Müslüm Gürses çalıyor.\"",
+  "\"Cüzdan boş, kalp kırık, aura full.\"",
+  "\"Zenginliği hayal ederken asgari ücrete şükretmek...\"",
+  "\"Bugün de hayattayız, eyvallah.\""
 ];
 
 export default function LandingPage() {
@@ -48,23 +57,32 @@ export default function LandingPage() {
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4 sm:px-6 text-center">
+        {/* Floating Icons Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} className="absolute top-1/4 left-[10%] text-4xl">🍵</motion.div>
+          <motion.div animate={{ y: [0, 30, 0], rotate: [0, -15, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }} className="absolute top-1/3 right-[15%] text-5xl">💔</motion.div>
+          <motion.div animate={{ y: [0, -40, 0], rotate: [0, 20, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }} className="absolute bottom-1/3 left-[20%] text-6xl">🫠</motion.div>
+          <motion.div animate={{ y: [0, 25, 0], rotate: [0, -10, 0] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} className="absolute bottom-1/4 right-[25%] text-5xl">🚬</motion.div>
+        </div>
+
         {/* Logo / Brand */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="mb-6"
+          className="mb-6 relative"
         >
-          <span className="text-sm tracking-[0.3em] uppercase text-dirty-gold/60 font-medium">
-            Anti-Dating Platform
+          <div className="absolute -inset-4 bg-dirty-gold/10 blur-xl rounded-full" />
+          <span className="relative text-xs sm:text-sm tracking-[0.3em] uppercase text-dirty-gold/80 font-bold border border-dirty-gold/20 px-4 py-1.5 rounded-full glass">
+            TÜRKİYE'NİN İLK ANTI-DATING PLATFORMU
           </span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
-          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-[var(--font-heading)] font-bold tracking-tight mb-6 sm:mb-8"
+          initial={{ opacity: 0, y: 30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, type: 'spring', stiffness: 100 }}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-[var(--font-heading)] font-bold tracking-tight mb-6 sm:mb-8 text-glow-gold"
         >
           <span className="text-gradient-gold">garibandan</span>
         </motion.h1>
@@ -77,11 +95,8 @@ export default function LandingPage() {
           className="max-w-2xl mb-10"
         >
           <p className="text-lg sm:text-xl md:text-2xl font-[var(--font-heading)] italic text-text-primary/80 leading-relaxed">
-            &ldquo;Bazıları zengin.
-            <br />
-            Bazıları güzel.
-            <br />
-            <span className="text-dirty-gold text-glow-gold">Bazıları sadece gariban.&rdquo;</span>
+            Mükemmellik yorar. Biz gerçeği arıyoruz.<br/>
+            <span className="text-dirty-gold text-glow-gold">Gel beraber dertlenelim.</span>
           </p>
         </motion.div>
 
@@ -99,10 +114,10 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}
               transition={{ duration: 0.5 }}
-              className="glass px-6 py-3 flex items-center gap-3"
+              className="glass-strong px-6 py-3 flex items-center gap-3 border-dirty-gold/20 glow-gold"
             >
               <span className="text-2xl">{titles[currentTitle].emoji}</span>
-              <span className="text-lg font-medium text-dirty-gold">{titles[currentTitle].text}</span>
+              <span className="text-lg font-bold text-gradient-gold">{titles[currentTitle].text}</span>
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -115,15 +130,15 @@ export default function LandingPage() {
         >
           <Link href="/onboarding">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(196, 163, 90, 0.3)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(196, 163, 90, 0.4)' }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-8 sm:px-10 py-4 bg-gradient-to-r from-dirty-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-base sm:text-lg tracking-wide overflow-hidden transition-all"
+              className="group relative px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-dirty-gold via-ironic-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-lg sm:text-xl tracking-wide overflow-hidden transition-all glow-gold"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <Sparkles size={20} />
+              <span className="relative z-10 flex items-center gap-3">
+                <Sparkles size={24} />
                 Garibanometreye Gir
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-faded-orange to-dirty-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-faded-orange via-dirty-gold to-ironic-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </motion.button>
           </Link>
         </motion.div>
@@ -138,11 +153,25 @@ export default function LandingPage() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-text-muted"
+            className="text-dirty-gold/60"
           >
-            <ChevronDown size={24} />
+            <ChevronDown size={32} />
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* ===== QUOTE MARQUEE ===== */}
+      <section className="relative z-20 py-4 bg-dirty-gold/10 border-y border-dirty-gold/20 overflow-hidden backdrop-blur-md">
+        <div className="animate-marquee gap-8 items-center">
+          {[...quotes, ...quotes].map((quote, i) => (
+            <div key={i} className="flex items-center gap-8">
+              <span className="text-sm md:text-base font-[var(--font-heading)] italic text-dirty-gold whitespace-nowrap">
+                {quote}
+              </span>
+              <span className="text-dirty-gold/30">✦</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
@@ -159,9 +188,9 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {[
-            { icon: <Flame />, title: 'Vibrasyonunu Seç', desc: 'Duygusal kimliğini belirle. 8 farklı gariban vibrasyonundan birini seç.', step: '01' },
-            { icon: <Zap />, title: 'Garibanometre\'yi Çöz', desc: 'Finansal, duygusal ve sosyal gariban seviyeni ölç. 0-100 arası puan al.', step: '02' },
-            { icon: <Heart />, title: 'Kaderini Bul', desc: 'Duygusal uyum, mizah senkronizasyonu ve hayatta kalma enerjisiyle eşleş.', step: '03' },
+            { icon: <Flame size={28} />, title: 'Vibrasyonunu Seç', desc: 'Duygusal kimliğini belirle. 8 farklı gariban vibrasyonundan birini seç.', step: '01' },
+            { icon: <Zap size={28} />, title: 'Garibanometre\'yi Çöz', desc: 'Finansal, duygusal ve sosyal gariban seviyeni ölç. 0-100 arası puan al.', step: '02' },
+            { icon: <Heart size={28} />, title: 'Kaderini Bul', desc: 'Duygusal uyum, mizah senkronizasyonu ve hayatta kalma enerjisiyle eşleş.', step: '03' },
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -169,10 +198,11 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.2 }}
-              className="glass-card p-6 sm:p-8 text-center group hover:border-dirty-gold/30 transition-all duration-500"
+              className="glass-card p-6 sm:p-8 text-center group hover:border-dirty-gold/40 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
             >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-dirty-gold/5 rounded-full blur-[40px] group-hover:bg-dirty-gold/10 transition-colors" />
               <div className="text-sm text-dirty-gold/40 font-mono mb-4">{item.step}</div>
-              <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-dirty-gold/10 flex items-center justify-center text-dirty-gold group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-dirty-gold/20 to-bg-dark border border-dirty-gold/20 flex items-center justify-center text-dirty-gold group-hover:scale-110 transition-transform duration-300 glow-gold">
                 {item.icon}
               </div>
               <h3 className="text-xl font-bold mb-3 text-text-primary">{item.title}</h3>
@@ -182,8 +212,67 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ===== CITY LEAGUES PREVIEW ===== */}
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-charcoal/40 to-transparent border-y border-white/5">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-1 text-center md:text-left"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-dirty-gold/10 border border-dirty-gold/20 text-dirty-gold text-xs font-bold mb-6 uppercase tracking-wider">
+              <Trophy size={14} /> Yeni Özellik
+            </div>
+            <h2 className="text-3xl md:text-5xl font-[var(--font-heading)] font-bold mb-6">
+              Şehrinin <br/>
+              <span className="text-gradient-gold">Gariban Ligine</span> Katıl
+            </h2>
+            <p className="text-text-secondary text-lg leading-relaxed mb-8">
+              Sadece bireysel eşleşme değil, bölgesel bir varoluş mücadelesi. İstanbul'un stresli aurası mı, Ankara'nın gri melankolisi mi, İzmir'in rahatsız edici rahatlığı mı? Şehrini temsil et.
+            </p>
+            <Link href="/leaderboard">
+              <button className="glass px-6 py-3 text-text-primary text-sm font-medium hover:text-dirty-gold hover:border-dirty-gold/30 transition-all flex items-center gap-2 mx-auto md:mx-0">
+                <MapPin size={18} /> Sıralamaları Gör
+              </button>
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-1 w-full"
+          >
+            <div className="glass-strong p-6 rounded-3xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
+              <div className="relative z-10 space-y-4">
+                {[
+                  { city: 'İstanbul', score: '88.5', trend: '↑', color: 'text-warm-neon-red' },
+                  { city: 'Ankara', score: '82.1', trend: '−', color: 'text-muted-blue' },
+                  { city: 'İzmir', score: '64.3', trend: '↓', color: 'text-tv-green' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-white/5 hover:bg-white/[0.06] transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-xs font-bold text-text-muted">
+                        {i + 1}
+                      </div>
+                      <span className="font-bold text-text-primary">{item.city}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className={`text-sm ${item.color}`}>{item.trend}</span>
+                      <span className="font-mono font-bold text-dirty-gold">{item.score}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ===== GARIBAN TITLES SHOWCASE ===== */}
-      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-charcoal/30 to-transparent">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -242,56 +331,17 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, type: 'spring' }}
-              className="text-center"
+              className="text-center glass-card py-8 px-4"
             >
               <div className="text-3xl md:text-4xl font-bold text-gradient-gold mb-2">{stat.value}</div>
-              <div className="text-sm text-text-secondary">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ===== FEATURES PREVIEW ===== */}
-      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-transparent via-charcoal/20 to-transparent">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-2xl sm:text-3xl md:text-5xl font-[var(--font-heading)] font-bold text-center mb-10 sm:mb-16"
-        >
-          <span className="text-text-primary">Neden </span>
-          <span className="text-gradient-gold">Garibandan?</span>
-        </motion.h2>
-
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {[
-            { icon: '🎭', title: 'Anti-Fake Kültür', desc: 'Sahte lüks kültürüne karşı, duygusal gerçeklik ödüllendirilir.' },
-            { icon: '🤖', title: 'AI Aura Analizi', desc: 'Yapay zeka duygusal auranı analiz eder ve eşleşme önerileri sunar.' },
-            { icon: '💕', title: 'Duygu Bazlı Eşleşme', desc: 'Görünüş değil, duygusal uyum, mizah ve hayatta kalma enerjisi.' },
-            { icon: '📱', title: 'Meme-Powered Feed', desc: 'TikTok tarzı sonsuz akış, duygusal itiraflar ve gariban meme\'ler.' },
-            { icon: '🏙️', title: 'Şehir Ligleri', desc: 'İstanbul, Ankara, İzmir... Şehrinin gariban liginde yarış.' },
-            { icon: '👑', title: 'VIP Gariban', desc: 'İronik lüks. Zengin değilsin ama ruhun VIP.' },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass p-6 flex items-start gap-4 group hover:bg-white/[0.06] transition-all duration-500"
-            >
-              <div className="text-3xl group-hover:scale-110 transition-transform">{item.icon}</div>
-              <div>
-                <h3 className="text-lg font-bold text-text-primary mb-2">{item.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
-              </div>
+              <div className="text-xs text-text-secondary uppercase tracking-wider">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section className="relative z-10 py-20 sm:py-32 px-4 sm:px-6 text-center">
+      <section className="relative z-10 py-20 sm:py-32 px-4 sm:px-6 text-center bg-cinematic">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -321,10 +371,10 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-8 px-6 border-t border-white/5">
+      <footer className="relative z-10 py-8 px-6 border-t border-white/5 bg-bg-dark">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-text-muted">
-            © 2025 Garibandan. Tüm hakları gariban.
+            © 2026 Garibandan. Tüm hakları gariban.
           </div>
           <div className="flex gap-6 text-sm text-text-muted">
             <span className="hover:text-dirty-gold transition-colors cursor-pointer">Hakkında</span>

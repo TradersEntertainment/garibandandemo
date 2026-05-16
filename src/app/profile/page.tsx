@@ -1,17 +1,21 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { getUser } from '@/utils/storage';
 import { garibanTitles, vibes } from '@/data/questions';
 import RadarChart from '@/components/RadarChart';
+import BottomNav from '@/components/BottomNav';
 import { Settings, Edit3, Sparkles, Music, Coffee, Heart, Zap, Moon } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<ReturnType<typeof getUser> | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editVibe, setEditVibe] = useState('');
 
   useEffect(() => {
     const userData = getUser();
@@ -20,7 +24,16 @@ export default function ProfilePage() {
       return;
     }
     setUser(userData);
+    setEditName(userData.name || '');
+    setEditVibe(userData.vibe || '');
   }, [router]);
+
+  const handleSaveProfile = () => {
+    if (!user) return;
+    // We would normally save this to storage, but for the demo we'll just update local state
+    setUser({ ...user, name: editName, vibe: editVibe });
+    setIsEditModalOpen(false);
+  };
 
   if (!user || !user.score) return null;
 
@@ -46,7 +59,10 @@ export default function ProfilePage() {
       <div className="relative z-20 px-4 sm:p-6 pt-4 flex items-center justify-between safe-top">
         <h1 className="text-xl font-[var(--font-heading)] font-bold text-gradient-gold">Profil</h1>
         <div className="flex gap-3">
-          <button className="glass w-9 h-9 rounded-full flex items-center justify-center text-text-muted hover:text-dirty-gold transition-colors">
+          <button 
+            onClick={() => setIsEditModalOpen(true)}
+            className="glass w-9 h-9 rounded-full flex items-center justify-center text-text-muted hover:text-dirty-gold transition-colors"
+          >
             <Edit3 size={16} />
           </button>
           <button className="glass w-9 h-9 rounded-full flex items-center justify-center text-text-muted hover:text-dirty-gold transition-colors">
@@ -285,28 +301,68 @@ export default function ProfilePage() {
         </motion.div>
       </div>
 
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 glass-strong border-t border-white/5">
-        <div className="flex items-center justify-around py-3 max-w-lg mx-auto">
-          {[
-            { id: 'feed', label: 'Keşfet', emoji: '🔥', href: '/feed' },
-            { id: 'swipe', label: 'Eşleş', emoji: '💫', href: '/swipe' },
-            { id: 'chat', label: 'Sohbet', emoji: '💬', href: '/feed' },
-            { id: 'profile', label: 'Profil', emoji: '👤', href: '/profile', active: true },
-            { id: 'vip', label: 'VIP', emoji: '👑', href: '/vip' },
-          ].map((tab) => (
-            <Link key={tab.id} href={tab.href}>
-              <div className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl ${
-                tab.active ? 'text-dirty-gold' : 'text-text-muted'
-              }`}>
-                <span className="text-lg">{tab.emoji}</span>
-                <span className="text-[10px] font-medium">{tab.label}</span>
-                {tab.active && <div className="w-1 h-1 rounded-full bg-dirty-gold" />}
+      <AnimatePresence>
+        {isEditModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-6"
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="w-full max-w-lg bg-bg-dark sm:rounded-[32px] rounded-t-[32px] border border-white/10 overflow-hidden shadow-2xl pb-safe"
+            >
+              <div className="p-4 flex items-center justify-between border-b border-white/5">
+                <button onClick={() => setIsEditModalOpen(false)} className="px-4 py-2 text-text-muted hover:text-white transition-colors text-sm">
+                  İptal
+                </button>
+                <h3 className="font-bold text-text-primary">Profili Düzenle</h3>
+                <button 
+                  onClick={handleSaveProfile}
+                  className="px-4 py-1.5 bg-dirty-gold text-bg-dark rounded-full font-bold text-sm"
+                >
+                  Kaydet
+                </button>
               </div>
-            </Link>
-          ))}
-        </div>
-      </nav>
+              <div className="p-6 space-y-6">
+                <div>
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Gariban İsmi</label>
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-dirty-gold/50 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Vibrasyon</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {vibes.slice(0, 4).map((v) => (
+                      <button
+                        key={v.id}
+                        onClick={() => setEditVibe(v.id)}
+                        className={`p-3 rounded-xl border text-left transition-colors flex items-center gap-2 ${
+                          editVibe === v.id ? 'border-dirty-gold bg-dirty-gold/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
+                        }`}
+                      >
+                        <span className="text-xl">{v.emoji}</span>
+                        <span className="text-xs font-bold truncate">{v.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom Nav */}
+      <BottomNav active="profile" />
     </main>
   );
 }

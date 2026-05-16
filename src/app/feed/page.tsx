@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { feedPosts, FeedPost } from '@/data/feedPosts';
 import { garibanTitles } from '@/data/questions';
-import { Sparkles, MessageCircle, Share2, Plus } from 'lucide-react';
+import { Sparkles, MessageCircle, Share2, Plus, PenSquare } from 'lucide-react';
 import Link from 'next/link';
+import BottomNav from '@/components/BottomNav';
 
 const categories = [
   { id: 'all', label: 'Tümü', emoji: '🔥' },
@@ -105,10 +106,41 @@ function FeedPostCard({ post, index }: { post: FeedPost; index: number }) {
 
 export default function FeedPage() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [posts, setPosts] = useState(feedPosts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newPostContent, setNewPostContent] = useState('');
+
+  const handleCreatePost = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPostContent.trim()) return;
+
+    const newPost: FeedPost = {
+      id: Date.now().toString(),
+      userName: 'Sen',
+      userAvatar: '🫠',
+      userScore: 99,
+      userTitle: 'Gariban',
+      timeAgo: 'Şimdi',
+      category: 'itiraf',
+      content: newPostContent,
+      aiComment: 'Buna ne desem bilemedim, haklısın...',
+      reactions: {
+        aciAmaGercek: 0,
+        cayKoy: 0,
+        bittiIis: 0,
+        bendeDeVar: 0,
+      }
+    };
+
+    setPosts([newPost, ...posts]);
+    setNewPostContent('');
+    setIsModalOpen(false);
+    setActiveCategory('all');
+  };
 
   const filteredPosts = activeCategory === 'all'
-    ? feedPosts
-    : feedPosts.filter((p) => p.category === activeCategory);
+    ? posts
+    : posts.filter((p) => p.category === activeCategory);
 
   return (
     <main className="relative min-h-[100dvh] bg-bg-dark pb-safe">
@@ -172,10 +204,59 @@ export default function FeedPage() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
+        onClick={() => setIsModalOpen(true)}
         className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-dirty-gold to-faded-orange flex items-center justify-center text-bg-dark shadow-lg glow-gold"
       >
-        <Plus size={22} />
+        <PenSquare size={22} />
       </motion.button>
+
+      {/* CREATE POST MODAL */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-6"
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="w-full max-w-lg bg-bg-dark sm:rounded-[32px] rounded-t-[32px] border border-white/10 overflow-hidden shadow-2xl"
+            >
+              <div className="p-4 flex items-center justify-between border-b border-white/5">
+                <button onClick={() => setIsModalOpen(false)} className="p-2 text-text-muted hover:text-white transition-colors">
+                  İptal
+                </button>
+                <h3 className="font-bold text-text-primary">İtiraf Paylaş</h3>
+                <button 
+                  onClick={handleCreatePost}
+                  disabled={!newPostContent.trim()}
+                  className="px-4 py-1.5 bg-dirty-gold text-bg-dark rounded-full font-bold text-sm disabled:opacity-50"
+                >
+                  Paylaş
+                </button>
+              </div>
+              <div className="p-6 pb-safe">
+                <div className="flex gap-4 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-xl shrink-0">
+                    🫠
+                  </div>
+                  <textarea
+                    autoFocus
+                    value={newPostContent}
+                    onChange={(e) => setNewPostContent(e.target.value)}
+                    placeholder="İçini dök, buradayız..."
+                    className="w-full bg-transparent text-text-primary text-lg resize-none outline-none min-h-[150px] placeholder:text-text-muted"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom Nav */}
       <BottomNav active="feed" />
@@ -183,38 +264,4 @@ export default function FeedPage() {
   );
 }
 
-function BottomNav({ active }: { active: string }) {
-  const tabs = [
-    { id: 'feed', label: 'Keşfet', emoji: '🔥', href: '/feed' },
-    { id: 'swipe', label: 'Eşleş', emoji: '💫', href: '/swipe' },
-    { id: 'chat', label: 'Sohbet', emoji: '💬', href: '/feed' },
-    { id: 'profile', label: 'Profil', emoji: '👤', href: '/profile' },
-    { id: 'vip', label: 'VIP', emoji: '👑', href: '/vip' },
-  ];
 
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 glass-strong border-t border-white/5">
-      <div className="flex items-center justify-around py-3 max-w-lg mx-auto">
-        {tabs.map((tab) => (
-          <Link key={tab.id} href={tab.href}>
-            <motion.div
-              whileTap={{ scale: 0.9 }}
-              className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-all ${
-                active === tab.id ? 'text-dirty-gold' : 'text-text-muted'
-              }`}
-            >
-              <span className="text-lg">{tab.emoji}</span>
-              <span className="text-[10px] font-medium">{tab.label}</span>
-              {active === tab.id && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="w-1 h-1 rounded-full bg-dirty-gold"
-                />
-              )}
-            </motion.div>
-          </Link>
-        ))}
-      </div>
-    </nav>
-  );
-}
