@@ -138,7 +138,7 @@ export default function OnboardingPage() {
             transition={{ duration: 0.8 }}
             className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4"
           >
-            <div className="text-center max-w-md space-y-6">
+            <div className="text-center max-w-4xl space-y-6">
               {introLines.map((line, i) => (
                 <motion.div
                   key={i}
@@ -159,8 +159,9 @@ export default function OnboardingPage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 5.0, type: 'spring', stiffness: 200 }}
+                className="w-full"
               >
-                <div className="text-6xl sm:text-8xl font-[var(--font-heading)] font-bold text-gradient-gold mt-4 text-glow-gold">
+                <div className="inline-block text-5xl sm:text-8xl font-[var(--font-heading)] font-bold text-gradient-gold mt-4 text-glow-gold px-4 leading-tight">
                   Garibansın.
                 </div>
               </motion.div>
