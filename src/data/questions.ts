@@ -236,6 +236,34 @@ export const vibes = [
     description: 'Bozkırın sessizliğinde hüzün bulur',
     color: '#D4C36A',
   },
+  {
+    id: 'gunduz-nobeti',
+    title: 'Gece Vardiyası',
+    emoji: '🦉',
+    description: 'Uyku düzeni yok, karanlıkta yaşar',
+    color: '#8A4A8A',
+  },
+  {
+    id: 'eski-toprak',
+    title: 'Eski Toprak',
+    emoji: '👴',
+    description: 'Sürekli eskileri yad edip iç çeker',
+    color: '#6B6B4A',
+  },
+  {
+    id: 'surekli-ertelenen',
+    title: 'Sürekli Ertelenen',
+    emoji: '⏳',
+    description: 'Hayatı ve planları hep bir sonraki aya ertelenir',
+    color: '#4A8A8A',
+  },
+  {
+    id: 'metrobus-gazisi',
+    title: 'Metrobüs Gazisi',
+    emoji: '🚌',
+    description: 'Kalabalıkta yalnız kalma ve ayakta uyuma ustası',
+    color: '#A85A4A',
+  },
 ];
 
 export const garibanTitles: Record<string, { title: string; emoji: string; description: string }> = {
