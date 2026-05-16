@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap');
+
+@import "tailwindcss";
+
+/* ========================================
+   GARIBANDAN DESIGN SYSTEM
+   Dark Cinematic · Turkish Melancholy
+   ======================================== */
+
+@theme inline {
+  --color-charcoal: #1A1A1A;
+  --color-dirty-gold: #C4A35A;
+  --color-faded-orange: #D4845A;
+  --color-tea-brown: #8B6914;
+  --color-muted-blue: #4A6B8A;
+  --color-warm-neon-red: #E84040;
+  --color-tv-green: #5A9A5A;
+  --color-smoke-gray: #7A7A7A;
+  --color-melancholy-yellow: #D4C36A;
+  --color-ironic-gold: #FFD700;
+  --color-bg-dark: #0D0D0D;
+  --color-bg-card: rgba(26, 26, 26, 0.8);
+  --color-bg-glass: rgba(255, 255, 255, 0.05);
+  --color-border-glass: rgba(255, 255, 255, 0.08);
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: #9A9A9A;
+  --color-text-muted: #5A5A5A;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+:root {
+  --background: #0D0D0D;
+  --foreground: #F5F0E8;
+}
+
+/* ========== BASE STYLES ========== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== CUSTOM SCROLLBAR ========== */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4A35A33;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C4A35A66;
+}
+
+/* ========== FILM GRAIN OVERLAY ========== */
+
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(1) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ========== GLASSMORPHISM ========== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.glass-card {
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+}
+
+.glass-strong {
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+/* ========== GLOW EFFECTS ========== */
+
+.glow-gold {
+  box-shadow: 0 0 20px rgba(196, 163, 90, 0.15), 0 0 60px rgba(196, 163, 90, 0.05);
+}
+
+.glow-red {
+  box-shadow: 0 0 20px rgba(232, 64, 64, 0.15), 0 0 60px rgba(232, 64, 64, 0.05);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(74, 107, 138, 0.2), 0 0 60px rgba(74, 107, 138, 0.05);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 20px rgba(196, 163, 90, 0.3), 0 0 40px rgba(196, 163, 90, 0.1);
+}
+
+/* ========== ANIMATIONS ========== */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rain-drop {
+  0% { transform: translateY(-100vh); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(196, 163, 90, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* ========== GRADIENTS ========== */
+
+.bg-cinematic {
+  background: radial-gradient(ellipse at 20% 50%, rgba(196, 163, 90, 0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(74, 107, 138, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(232, 64, 64, 0.04) 0%, transparent 50%),
+              #0D0D0D;
+}
+
+.bg-gariban-gradient {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1A1614 30%, #1A1A1A 60%, #0D0D0D 100%);
+}
+
+.bg-istanbul-night {
+  background: linear-gradient(180deg,
+    #0D0D0D 0%,
+    #0D1117 30%,
+    #121820 50%,
+    #0D1117 70%,
+    #0D0D0D 100%
+  );
+}
+
+/* ========== UTILITIES ========== */
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #C4A35A, #FFD700, #C4A35A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-emotional {
+  background: linear-gradient(135deg, #D4845A, #E84040, #C4A35A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-glow-gold {
+  border: 1px solid rgba(196, 163, 90, 0.3);
+  box-shadow: inset 0 0 20px rgba(196, 163, 90, 0.05);
+}
+
+/* ========== SNAP SCROLL (Feed) ========== */
+
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.snap-item {
+  scroll-snap-align: start;
+  height: 100vh;
+}
+
+/* ========== EMOTIONAL BATTERY ========== */
+
+.battery-fill {
+  transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ========== SWIPE CARD ========== */
+
+.swipe-card {
+  touch-action: none;
+  user-select: none;
+}
+
+/* ========== BOTTOM NAV SAFE AREA ========== */
+
+.pb-safe {
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+}
