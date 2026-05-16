@@ -70,9 +70,13 @@ function SwipeCard({
         </motion.div>
 
         {/* Avatar / Visual */}
-        <div className="flex-1 flex flex-col items-center justify-center mb-6">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-charcoal to-bg-dark border-2 border-dirty-gold/20 flex items-center justify-center text-5xl sm:text-6xl mb-4 sm:mb-6 shadow-lg">
-            {profile.avatar}
+        <div className="flex-1 flex flex-col items-center justify-center mb-4">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-charcoal to-bg-dark border-2 border-dirty-gold/20 flex items-center justify-center text-5xl sm:text-6xl mb-4 sm:mb-6 shadow-lg overflow-hidden">
+            {profile.avatar.startsWith('/') ? (
+              <img src={profile.avatar} alt={profile.name} className="w-full h-full object-cover" />
+            ) : (
+              profile.avatar
+            )}
           </div>
 
           <h2 className="text-xl sm:text-2xl font-[var(--font-heading)] font-bold text-text-primary mb-1">
@@ -276,9 +280,9 @@ export default function SwipePage() {
         </Link>
       </div>
 
-      {/* Card Stack */}
-      <div className="relative z-10 flex-1 px-4 sm:px-6 pb-28 sm:pb-32">
-        <div className="relative w-full max-w-sm mx-auto h-full" style={{ minHeight: 'calc(100dvh - 200px)' }}>
+      {/* ===== CARD STACK ===== */}
+      <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 pt-16 pb-36">
+        <div className="relative w-full max-w-sm aspect-[3/4] max-h-[65vh]">
           {!hasMoreProfiles ? (
             <motion.div
               initial={{ opacity: 0 }}
@@ -315,7 +319,7 @@ export default function SwipePage() {
 
       {/* Action Buttons */}
       {hasMoreProfiles && (
-        <div className="fixed bottom-24 sm:bottom-28 left-0 right-0 z-30 flex items-center justify-center gap-4 sm:gap-5 safe-bottom">
+        <div className="fixed bottom-24 sm:bottom-32 left-0 right-0 z-30 flex items-center justify-center gap-6 sm:gap-8 pb-4">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -346,13 +350,7 @@ export default function SwipePage() {
       )}
 
       {/* Button Labels */}
-      {hasMoreProfiles && (
-        <div className="fixed bottom-2 left-0 right-0 z-30 flex items-center justify-center gap-12 text-[9px] text-text-muted">
-          <span>Eyvallah</span>
-          <span>Çorba Ismarla</span>
-          <span>Kaderimizdir</span>
-        </div>
-      )}
+
 
       {/* Match Overlay */}
       <AnimatePresence>

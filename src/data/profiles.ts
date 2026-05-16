@@ -34,7 +34,7 @@ export const mockProfiles: Profile[] = [
     lifeQuote: 'Her şey çok güzel olacak diyenlerden uzak durun',
     teaAddiction: 95,
     compatibilityLine: 'İkiniz saatlerce sessizce çay içebilirsiniz.',
-    avatar: '🌧️',
+    avatar: '/images/female1.png',
   },
   {
     id: '2',
@@ -52,7 +52,7 @@ export const mockProfiles: Profile[] = [
     lifeQuote: 'Hayat bir BİM poşeti, ne çıkacağını bilemezsin',
     teaAddiction: 100,
     compatibilityLine: 'Gece simit kimyası potansiyeli tespit edildi.',
-    avatar: '🧠',
+    avatar: '/images/male1.png',
   },
   {
     id: '3',
@@ -70,7 +70,7 @@ export const mockProfiles: Profile[] = [
     lifeQuote: 'Çay varsa hayat güzeldir, yoksa da idare ederiz',
     teaAddiction: 88,
     compatibilityLine: 'Ortak duygusal iflas tespit edildi.',
-    avatar: '🍵',
+    avatar: '/images/female2.png',
   },
   {
     id: '4',
@@ -88,7 +88,7 @@ export const mockProfiles: Profile[] = [
     lifeQuote: 'Buy the dip dediler, dip bitmiyor',
     teaAddiction: 70,
     compatibilityLine: 'İkiniz de duygusal olarak tartışmalı yıllar atlattınız.',
-    avatar: '📉',
+    avatar: '/images/male2.png',
   },
   {
     id: '5',
