@@ -127,12 +127,21 @@ export default function LandingPage() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.8, type: 'spring', stiffness: 200 }}
+          className="relative"
         >
+          {/* Pulsing glow ring */}
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-0 rounded-2xl bg-dirty-gold/20 blur-xl"
+          />
           <Link href="/onboarding">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(196, 163, 90, 0.4)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 60px rgba(196, 163, 90, 0.5)' }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-dirty-gold via-ironic-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-lg sm:text-xl tracking-wide overflow-hidden transition-all glow-gold"
+              animate={{ boxShadow: ['0 0 20px rgba(196,163,90,0.2)', '0 0 40px rgba(196,163,90,0.4)', '0 0 20px rgba(196,163,90,0.2)'] }}
+              transition={{ boxShadow: { duration: 2, repeat: Infinity } }}
+              className="relative group px-8 sm:px-14 py-5 sm:py-6 bg-gradient-to-r from-dirty-gold via-ironic-gold to-faded-orange rounded-2xl text-bg-dark font-bold text-xl sm:text-2xl tracking-wide overflow-hidden transition-all"
             >
               <span className="relative z-10 flex items-center gap-3">
                 <Sparkles size={24} />
@@ -141,6 +150,14 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-faded-orange via-dirty-gold to-ironic-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </motion.button>
           </Link>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5 }}
+            className="text-center text-text-muted text-xs mt-4"
+          >
+            ✨ 847,000+ gariban teste girdi
+          </motion.p>
         </motion.div>
 
         {/* Scroll Indicator */}
